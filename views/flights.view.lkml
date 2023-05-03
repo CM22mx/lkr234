@@ -4,6 +4,7 @@ view: flights {
     sql: SELECT arr_delay, arr_time, cancelled, carrier,  dep_delay, dep_time,
                 destination, distance, diverted, flight_num, flight_time, id2,
                 origin, tail_num, taxi_in, taxi_out
+                ,(arr_time - dep_time)  ttt
         FROM demo_db.flights
         WHERE {% condition origin_flight %} origin {% endcondition %}
         AND
@@ -14,8 +15,21 @@ view: flights {
             {% else %}
             1 = 1
             {% endif %}
+        AND
+           {% if is_diverted._parameter_value == "'Yes'" %}
+            (arr_time is null or (arr_time - dep_time) >= 20)
+            {% elsif is_diverted._parameter_value == "'No'" %}
+            (arr_time - dep_time) <= 19
+            {% else %}
+            1 = 1
+            {% endif %}
         ;;
 
+  }
+
+dimension:  ttt {
+  type: number
+  sql: ${TABLE}.ttt;;
   }
 
   dimension: arr_delay {
@@ -127,8 +141,19 @@ view: flights {
     allowed_value: { value: "No"}
   }
 
+  parameter: is_diverted {
+    type: string
+    allowed_value: { value: "Yes"}
+    allowed_value: { value: "No"}
+  }
+
   filter: origin_flight {
     suggest_explore: flights
     suggest_dimension: flights.origin
+  }
+
+  filter: destination_flight {
+    suggest_explore: flights
+    suggest_dimension: flights.destination
   }
 }

@@ -60,7 +60,14 @@ explore: fakeorders {
 
 explore: fatal_error_user_derived_base {}
 
-explore: flights {}
+explore: flights {
+  join: users {
+    type: left_outer
+    sql_on: ${flights.flight_num} = ${users.id} ;;
+    relationship: many_to_one
+  }
+
+}
 
 explore: human {}
 

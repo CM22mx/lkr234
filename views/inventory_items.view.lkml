@@ -8,11 +8,20 @@ view: inventory_items {
     sql: ${TABLE}.id ;;
   }
 
+  dimension: id_desc {
+
+    type: string
+    sql: concat("Cust ", ${TABLE}.id) ;;
+  }
+
   dimension: cost {
     type: number
     sql: ${TABLE}.cost ;;
   }
-
+  dimension: costMXP {
+    type: number
+    sql: ${TABLE}.cost * 18.5 ;;
+  }
   dimension_group: created {
     type: time
     timeframes: [
@@ -32,6 +41,7 @@ view: inventory_items {
     # hidden: yes
     sql: ${TABLE}.product_id ;;
   }
+
 
   dimension_group: sold {
     type: time
