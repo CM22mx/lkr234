@@ -24,7 +24,7 @@ view: flights {
             1 = 1
             {% endif %}
         ;;
-
+   # persist_for: "90 minutes"
   }
 
 dimension:  ttt {
