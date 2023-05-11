@@ -61,6 +61,7 @@ explore: fakeorders {
 explore: fatal_error_user_derived_base {}
 
 explore: flights {
+  persist_for: "90 minutes"
   join: users {
     type: left_outer
     sql_on: ${flights.flight_num} = ${users.id} ;;

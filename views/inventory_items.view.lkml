@@ -22,6 +22,7 @@ view: inventory_items {
     type: number
     sql: ${TABLE}.cost * 18.5 ;;
   }
+  # part of the testing
   dimension_group: created {
     type: time
     timeframes: [
